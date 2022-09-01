@@ -74,6 +74,12 @@ for i in range(len(Noise)):
     for j in range(len(Noise[i])):
         h.append(Noise[i][j])
 count, bins, ignored =  plt.hist(h,50,density=True)
+
+x=np.linspace(-5,5,200)
+def expgauss(x,s):
+    return ((1/np.sqrt(2*np.pi*s**2))*np.exp(-x**2/(2*s**2))) 
+
+plt.plot(x,[expgauss(x,1) for i in x])
 plt.savefig('historuido.pdf',dpi=300,bbox_inches='tight')
 plt.close()
 
