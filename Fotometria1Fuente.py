@@ -51,8 +51,8 @@ for i in range(1,5):
 
 plt.text(0.02,0.86,'90%',color='c')
 plt.xlabel('Radio de integración')
-plt.ylabel(r'$F_{obt}/F_{inc}$')
-plt.title('Flujo obtenido sobre flujo ingresado')
+plt.ylabel(r'$F(r)/F_{0}$')
+plt.title(r'Relación entre el flujo integrado $F(r)$ sobre flujo ingresado $F_{0}$')
 plt.xlim(0,12)
 plt.ylim(0,1.05)
 plt.savefig('./Imagenes/Fotometria1Fuente.pdf',dpi=400,bbox_inches='tight')

@@ -22,8 +22,8 @@ gauss_2D_kernel = Gaussian2DKernel(sigma)
 
 B=49
 A = np.zeros((B,B))
-A[11][18] = 700
-A[21][29] = 1200
+A[20][20] = 700
+A[31][31] = 1200
 
 map = convolve(A,gauss_2D_kernel)
 

@@ -17,12 +17,18 @@ for i in range(1,len(data)):
 
 
 #------------Histogramas diferenciales
-
-#--------Histograma Flujos PyBDSF
+#Límites
 minP = min(FluxPyBDSF)
 maxP = max(FluxPyBDSF)
-dx = (maxP-minP)/n
-intervalos1 = [minP + i*dx for i in range(n+1)]
+minC = min(FluxCat)
+maxC = max(FluxCat)
+
+minL = (minP+minC)/2
+maxL = (maxP+maxC)/2
+
+#--------Histograma Flujos PyBDSF
+dx = (maxL-minL)/n
+intervalos1 = [minL + i*dx for i in range(n+1)]
 count1, bins1, ignored1 =  plt.hist(x=FluxPyBDSF,bins=intervalos1,label='Histograma de flujos')
 bins12 = np.array([])
 for i in range(len(bins1)-1):
@@ -30,10 +36,8 @@ for i in range(len(bins1)-1):
 plt.close()
 
 #--------Histograma Flujos catálogo
-minC = min(FluxCat)
-maxC = max(FluxCat)
-dx = (maxC-minC)/n
-intervalos2 = [minC + i*dx for i in range(n+1)]
+dx = (maxL-minL)/n
+intervalos2 = [minL + i*dx for i in range(n+1)]
 count2, bins2, ignored2 =  plt.hist(x=FluxCat,bins=intervalos2,label='Histograma de flujos')
 bins22 = np.array([])
 for i in range(len(bins2)-1):
@@ -43,8 +47,8 @@ plt.close()
 
 
 
-plt.plot(bins12,count1,'ro--',label='Conteo del PyBDSF')
-plt.plot(bins22,count2,'bo--',label='Conteo del catálogo')
+plt.plot(bins12,count1,'r.--',label='Conteo del PyBDSF',linewidth = 0.8)
+plt.plot(bins22,count2,'b.--',label='Conteo del catálogo',linewidth = 0.8)
 
 plt.xscale('log')
 plt.yscale('log')
@@ -64,7 +68,7 @@ ConteoP = [Ftot1]
 for i in range(len(count1)):
     Ftot1 = Ftot1 - count1[i]
     ConteoP.append(Ftot1)
-plt.plot(bins1,ConteoP,'r--',label='Conteo de PyBDSF')
+plt.plot(bins1,ConteoP,'r.--',label='Conteo de PyBDSF',linewidth = 0.8)
 
 
 Ftot2 = sum(count2)
@@ -72,7 +76,7 @@ ConteoC = [Ftot2]
 for i in range(len(count2)):
     Ftot2 = Ftot2 - count2[i]
     ConteoC.append(Ftot2)
-plt.plot(bins2,ConteoC,'b--',label='Conteo del catálogo')
+plt.plot(bins2,ConteoC,'b.--',label='Conteo del catálogo',linewidth = 0.8)
 
 
 plt.yscale('log')

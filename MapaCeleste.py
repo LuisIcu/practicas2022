@@ -4,7 +4,7 @@ from astropy.convolution import convolve, Gaussian2DKernel
 import numpy as np
 import Funciones as L
 
-figure,axes = plt.subplots()
+
 
 '''
 Este programa en específico crea un mapa cuadrado con cierto número de fuentes, las convoluciona
@@ -42,30 +42,50 @@ for i in range(n):
 Noise = np.random.normal(0,2,size=(B,B))
 
 #Matriz final de señales
-data = convolve(Map,GaussKernel)+Noise
+conv = convolve(Map,GaussKernel)
+data = conv+Noise
 
+#------------------------Ploteos
+figure,axes = plt.subplots()
 plt.imshow(data,interpolation=None,origin='lower')
 for i in range(len(Fuentes)):
     drawCircle = plt.Circle((Fuentes[i][1],Fuentes[i][0]),FWHM/2,fill=False,color='r')
     axes.add_artist(drawCircle)
-
 plt.xlabel('x[pixels]')
 plt.ylabel('y[pixels]')
-plt.colorbar()
+cbar = plt.colorbar()
+cbar.set_label('Flujo [mJy/pixel]')
 plt.savefig('./Imagenes/MapaCeleste.pdf',dpi=400,bbox_inches='tight')
+#plt.show()
+plt.close()
+
+figure,axes = plt.subplots()
+plt.imshow(conv,interpolation=None,origin='lower')
+for i in range(len(Fuentes)):
+    drawCircle = plt.Circle((Fuentes[i][1],Fuentes[i][0]),FWHM/2,fill=False,color='r')
+    axes.add_artist(drawCircle)
+plt.xlabel('x[pixels]')
+plt.ylabel('y[pixels]')
+cbar = plt.colorbar()
+cbar.set_label('Flujo [mJy/pixel]')
+plt.savefig('./Imagenes/MapaCelesteSinRuido.pdf',dpi=400,bbox_inches='tight')
 #plt.show()
 plt.close()
 
 
 '''Plot comparando flujos iniciales e integrados'''
 for i in range(len(Fuentes)):
+    #Flujos sin ruido
+    I = L.SumRadio(conv,Fuentes[i][0],Fuentes[i][1],R)
+    Fuentes[i].append(I)
+    #Flujos con ruido
     F = L.SumRadio(data,Fuentes[i][0],Fuentes[i][1],R)
     Fuentes[i].append(F)
     Fuentes[i].append(F/Fuentes[i][2])
 
 #Arrays de flujo ingresado (Fo) y Flujo integrado (Fi)
 Fo = L.ExtCol(Fuentes,2)
-Fi = L.ExtCol(Fuentes,3)
+Fi = L.ExtCol(Fuentes,4)
 
 #Ploteamos esto, y marcamos las que estén a ±1 y ±3 del sigma que va a ser 21
 x = range(450,1550)
@@ -105,16 +125,17 @@ file.write(
     '---------------Datos de las fuentes--------------- \n'
     'y-crd: coordenada y\n'
     'x-crd: coordenada x\n'
-    'f-in: flujo ingresado\n'
-    'f-obt: flujo integrado\n'
-    'f-obt/f-inc: la relación entre las dos cantidades anteriores\n'
+    'f0: flujo ingresado\n'
+    'f(r): flujo integrado sin ruido\n'
+    'F(r): flujo integrado con ruido\n'
+    'F(r)/f0: la relación entre las dos cantidades anteriores\n'
     'f-conv: el flujo después de la convolución en las mismas coordenadas\n'
-    'y-crd \t x-crd \t f-in \t f-obt \t f-obt/f-inc \t f-conv \n' 
+    'y-crd \t x-crd \t f-in \t f(r) \t F(r) \t F(r)/f0 \t f-conv \n' 
 )
 
 for i in range(len(Fuentes)):
     file.write(
-        str(Fuentes[i][0]) + '\t' + str(Fuentes[i][1]) + '\t' + str(Fuentes[i][2]) + '\t' + str(Fuentes[i][3]) + '\t' + str(Fuentes[i][4]) +'\n'
+        str(Fuentes[i][0]) + '\t' + str(Fuentes[i][1]) + '\t' + str(Fuentes[i][2]) + '\t' + str(Fuentes[i][3]) + '\t' + str(Fuentes[i][4]) + '\t' + str(Fuentes[i][5]) + '\t' + str(conv[Fuentes[i][0]][Fuentes[i][1]]) +'\n'
     )
 
 file.write(
