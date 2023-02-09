@@ -47,8 +47,8 @@ plt.close()
 
 
 
-plt.plot(bins12,count1,'r.--',label='Conteo del PyBDSF',linewidth = 0.8)
-plt.plot(bins22,count2,'b.--',label='Conteo del catálogo',linewidth = 0.8)
+plt.plot(bins12,count1,'r.--',label='Output (PyBDSF)',linewidth = 0.8)
+plt.plot(bins22,count2,'b.--',label='Input (catálogo)',linewidth = 0.8)
 
 plt.xscale('log')
 plt.yscale('log')
@@ -68,7 +68,7 @@ ConteoP = [Ftot1]
 for i in range(len(count1)):
     Ftot1 = Ftot1 - count1[i]
     ConteoP.append(Ftot1)
-plt.plot(bins1,ConteoP,'r.--',label='Conteo de PyBDSF',linewidth = 0.8)
+plt.plot(bins1,ConteoP,'r.--',label='Output (PyBDSF)',linewidth = 0.8)
 
 
 Ftot2 = sum(count2)
@@ -76,7 +76,7 @@ ConteoC = [Ftot2]
 for i in range(len(count2)):
     Ftot2 = Ftot2 - count2[i]
     ConteoC.append(Ftot2)
-plt.plot(bins2,ConteoC,'b.--',label='Conteo del catálogo',linewidth = 0.8)
+plt.plot(bins2,ConteoC,'b.--',label='Input (catálogo)',linewidth = 0.8)
 
 
 plt.yscale('log')
