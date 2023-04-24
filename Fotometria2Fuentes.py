@@ -74,12 +74,12 @@ plt.text(1.02,0.80,'90%',color='c',alpha=0.5)
 
 
 #---------------------- FORMATO DEL PLOT ---------------------------#
-plt.xlabel('Radio de integración')
+plt.xlabel('Radio de integración [r]')
 plt.ylabel(r'$F(r)/F_{0}$')
 #plt.title(r'Flujo integrado $F_{f}$ sobre flujo intrínseco $F_{0}$ en función de la distancia $d$ de separación entre las fuentes')
-plt.title(r'Relación $F(r)/F_{0}$ según la distancia $d$ entre las fuentes')
+plt.title(r'Fotometría de apertura para una fuente' +'\n'+ r'que está a una distancia $d$ de otra fuente idéntica')
 plt.xlim(1,rmax)
 plt.ylim(0,)
 leg = ax.legend()
-plt.savefig('./Imagenes/Fotometria2Fuentes.pdf',dpi=400,bbox_inches='tight')
+#plt.savefig('./Imagenes/Fotometria2Fuentes.pdf',dpi=400,bbox_inches='tight')
 plt.show()
